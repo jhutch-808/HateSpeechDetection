@@ -1,5 +1,7 @@
 # Ignore dataset and system files
 HateSpeechDataset.csv
+finished_hate_speech.csv
 *.log
 __pycache__/
 *.ipynb_checkpoints/finished_hate_speech.csv
+*.csv
