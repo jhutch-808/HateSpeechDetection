@@ -1,10 +1,9 @@
-#Ensure you pip install
 #TODO: N-grams 
-#Stop word removal and tokenization
-#Add any extra text cleaning wanted
-#Save to the CSV when all checked so that people can do work in other files
 #Currently only works with the cleaned dataset. Lots more work needed for other one
 #Get rid of other languages
+
+#To get it from pkl just run the following line:
+#tweets = pd.read_pickle("py_df.pkl")
 
 import pandas as pd
 import numpy as np 
@@ -114,18 +113,29 @@ def nGrammify(text_nums, n):
 tweets['tweet'] = tweets['tweet'].apply(clean_text)
 del tweets['nums']
 
+print("Splitting")
 tweets['splits'] = tweets['tweet'].str.split()
 #Numbers words
+print("numberring")
 tweets['newNum'] = tweets['splits'].apply(number_words)
 #This takes a while.
+print("Removing Stop Words...")
 tweets['noStop'] = tweets['splits'].apply(stop_word_removal)
+print("Numbering stop word removal...")
 tweets['numStop'] = tweets['noStop'].apply(number_words)
-#this takes a while too. Not too long that I couldnt be convinced to ditch dictionaries
+#this takes a while too. Not too long that I could be convinced to ditch dictionaries
+print("Gramming...")
 tweets['2_grams'] = tweets['newNum'].apply(lambda x: nGrammify(x, 2))
 tweets['3_grams'] = tweets['newNum'].apply(lambda x: nGrammify(x, 3))
 #NS = no stop
+print("EZ Gramming...")
 tweets['2_grams_NS'] = tweets['numStop'].apply(lambda x: nGrammify(x, 2))
 tweets['3_grams_NS'] = tweets['numStop'].apply(lambda x: nGrammify(x, 3))
 
-#We should only run this line once are done with everything we want to do
-tweets.to_csv("finished_hate_speech.csv")
+tweets.to_pickle("py_df.pkl")
+# import json
+
+# list_cols = ['splits','newNum','noStop','numStop','2_grams','3_grams','2_grams_NS','3_grams_NS']
+# for c in list_cols:
+#     if c in tweets.columns:
+#         tweets[c] = tweets[c].apply(lambda x: json.dumps(x) if isinstance(x, (list, dict)) else x)
