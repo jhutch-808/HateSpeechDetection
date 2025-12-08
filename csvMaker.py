@@ -4,7 +4,6 @@
 
 #To get it from pkl just run the following line:
 #tweets = pd.read_pickle("py_df.pkl")
-
 import pandas as pd
 import numpy as np 
 import re
@@ -12,7 +11,7 @@ import re
 pd.set_option('display.max_colwidth', None)
 
 #Replace with your own path
-f = open("../data/HateSpeechDataset.csv",'r')
+f = open("HateSpeechDataset.csv",'r')
 r_cols = ['tweet', 'hate', 'nums']
 tweets = pd.read_csv(f, sep=',', names=r_cols)
 tweets = tweets[1:]
@@ -116,7 +115,7 @@ del tweets['nums']
 print("Splitting")
 tweets['splits'] = tweets['tweet'].str.split()
 #Numbers words
-print("numberring")
+print("numbering")
 tweets['newNum'] = tweets['splits'].apply(number_words)
 #This takes a while.
 print("Removing Stop Words...")
